@@ -9,6 +9,7 @@ namespace WebsiteCommands.Models
 {
     public class ConfigurableWebsiteCommand
     {
+        [XmlAttribute]
         public string Name { get; set; }
         public string Message { get; set; }
         public string URL { get; set; }
