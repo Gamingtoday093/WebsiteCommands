@@ -72,10 +72,10 @@ namespace WebsiteCommands
 
         private void OnPlayerJoin(UnturnedPlayer player)
         {
-            if (!Config.OnJoin.Enabled || ExistingPlayers is null) return;
-            if (Config.OnJoin.OnlyFirstJoin && ExistingPlayers.Contains(player.CSteamID.m_SteamID)) return;
+            if (!Config.OnJoin.Enabled) return;
+            if (Config.OnJoin.OnlyFirstJoin && (ExistingPlayers is null || ExistingPlayers.Contains(player.CSteamID.m_SteamID))) return;
 
-            ExistingPlayers.Add(player.CSteamID.m_SteamID);
+            if (Config.OnJoin.OnlyFirstJoin) ExistingPlayers.Add(player.CSteamID.m_SteamID);
 
             player.Player.sendBrowserRequest(Config.OnJoin.Message, Config.OnJoin.URL);
             if (Config.ShouldLogToChat) UnturnedChat.Say(player, Instance.Translate("WCSuccess"), DefaultMessageColour);
