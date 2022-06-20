@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ConfigurableWebsiteCommand.cs" />
+    <Compile Include="Models\OnJoinWebsite.cs" />
     <Compile Include="Models\WebsiteCommand.cs" />
     <Compile Include="WebsiteCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

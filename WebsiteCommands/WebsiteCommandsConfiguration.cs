@@ -13,12 +13,20 @@ namespace WebsiteCommands
     {
         public string DefaultTextColour { get; set; }
         public bool ShouldLogToChat { get; set; }
+        public OnJoinWebsite OnJoin { get; set; }
         [XmlArrayItem("Command")]
         public ConfigurableWebsiteCommand[] Commands { get; set; }
         public void LoadDefaults()
         {
             DefaultTextColour = "green";
             ShouldLogToChat = true;
+            OnJoin = new OnJoinWebsite()
+            {
+                Enabled = false,
+                OnlyFirstJoin = true,
+                Message = "Hey Welcome to our Server! Check out this Cool Video",
+                URL = "https://www.youtube.com/watch?v=0kR-QhU_2Mc"
+            };
             Commands = new ConfigurableWebsiteCommand[]
             {
                 new ConfigurableWebsiteCommand()
