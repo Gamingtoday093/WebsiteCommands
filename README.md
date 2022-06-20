@@ -2,6 +2,7 @@
 Connect with your Unturned Server! Allows for easy access to websites using Generated commands!
 ### Features
 - Create an **Unlimited** amount of Commands that link to whatever Website you want.
+- Display a Browser Request **Every Time** or only the **First Time** a Player joins.
 - Simple and Free!
 
 #### Permissions
