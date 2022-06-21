@@ -33,7 +33,7 @@ namespace WebsiteCommands
 
             if (Config.OnJoin.Enabled)
             {
-                ExistingPlayers = GetExistingPlayers();
+                if (Config.OnJoin.OnlyFirstJoin) ExistingPlayers = GetExistingPlayers();
                 U.Events.OnPlayerConnected += OnPlayerJoin;
             }
 
@@ -63,11 +63,27 @@ namespace WebsiteCommands
             // Players Directory
             string PlayersDirectory = Path.Combine(Path.GetDirectoryName(System.Environment.CurrentDirectory), "Players");
 
-            if (!Dir.Exists(PlayersDirectory)) return null;
+            if (!Dir.Exists(PlayersDirectory))
+            {
+                Logger.LogError($"[{Name}] Unable to find {PlayersDirectory}");
+                return null;
+            }
             HashSet<ulong> ExistingPlayers = new HashSet<ulong>();
-            foreach (string player in Dir.GetDirectories(PlayersDirectory))
-                ExistingPlayers.Add(ulong.Parse(player.Substring(0, 17)));
+            foreach (string folder in Dir.GetDirectories(PlayersDirectory))
+            {
+                if (TryGetSteamID(folder, out ulong steamId)) ExistingPlayers.Add(steamId);
+                else Logger.LogError($"[{Name}] Error when Getting SteamId from: {folder}");
+            }
             return ExistingPlayers;
+        }
+
+        private bool TryGetSteamID(string FolderName, out ulong SteamID)
+        {
+            SteamID = 0;
+            if (FolderName.Length < 17) return false;
+            if (!ulong.TryParse(FolderName.Substring(0, 17), out ulong ParsedSteamID)) return false;
+            SteamID = ParsedSteamID;
+            return true;
         }
 
         private void OnPlayerJoin(UnturnedPlayer player)
