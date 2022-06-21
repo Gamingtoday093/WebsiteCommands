@@ -69,7 +69,7 @@ namespace WebsiteCommands
                 return null;
             }
             HashSet<ulong> ExistingPlayers = new HashSet<ulong>();
-            foreach (string folder in Dir.GetDirectories(PlayersDirectory))
+            foreach (string folder in Dir.GetDirectories(PlayersDirectory).Select(d => new DirectoryInfo(d).Name))
             {
                 if (TryGetSteamID(folder, out ulong steamId)) ExistingPlayers.Add(steamId);
                 else Logger.LogError($"[{Name}] Error when Getting SteamId from: {folder}");
@@ -94,7 +94,6 @@ namespace WebsiteCommands
             if (Config.OnJoin.OnlyFirstJoin) ExistingPlayers.Add(player.CSteamID.m_SteamID);
 
             player.Player.sendBrowserRequest(Config.OnJoin.Message, Config.OnJoin.URL);
-            if (Config.ShouldLogToChat) UnturnedChat.Say(player, Instance.Translate("WCSuccess"), DefaultMessageColour);
         }
 
         public override TranslationList DefaultTranslations => new TranslationList()
